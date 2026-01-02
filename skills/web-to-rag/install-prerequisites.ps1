@@ -313,23 +313,30 @@ if (-not $SkipDocker) {
         if ($LASTEXITCODE -eq 0) {
             Write-OK "Docker daemon is running"
         } else {
-            Write-Warn "Docker is installed but not running"
-            Write-Host "     Please start Docker Desktop manually"
-            Write-Host "     Then re-run this script or continue with -SkipDocker"
+            Write-Warn "Docker is installed but not running. Starting Docker Desktop..."
+            Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 
-            $startDocker = Read-Host "Try to start Docker Desktop now? (Y/n)"
-            if ($startDocker -ne "n" -and $startDocker -ne "N") {
-                Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
-                Write-Host "Waiting for Docker to start (this may take 30-60 seconds)..."
-                Start-Sleep -Seconds 30
+            # Wait for Docker daemon with polling
+            $maxWait = 90
+            $elapsed = 0
+            $interval = 5
+            Write-Host "  Waiting for Docker daemon (up to ${maxWait}s)..."
 
-                # Check again
+            while ($elapsed -lt $maxWait) {
+                Start-Sleep -Seconds $interval
+                $elapsed += $interval
                 $null = docker info 2>&1
                 if ($LASTEXITCODE -eq 0) {
                     Write-OK "Docker daemon is now running"
-                } else {
-                    Write-Warn "Docker still not ready. Please wait and re-run script."
+                    break
                 }
+                Write-Host "  Still waiting... (${elapsed}s)"
+            }
+
+            if ($LASTEXITCODE -ne 0) {
+                Write-Err "Docker daemon failed to start after ${maxWait}s"
+                Write-Host "     Please start Docker Desktop manually and re-run script"
+                exit 1
             }
         }
     } else {
