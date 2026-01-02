@@ -8,7 +8,7 @@ A Claude Code skill that imports content from multiple sources into a local RAG 
 
 ## Prerequisites
 
-**Before using this skill**, you must install the required services.
+**Install the required services before using this skill.**
 
 ### Automated Installation
 
@@ -50,7 +50,7 @@ cd skills/web-to-rag
 
 ### Core Features
 - **Multi-source import**: Websites, YouTube transcripts, PDFs
-- **Auto-detect content type**: Automatically selects the right tool
+- **Auto-detect content type**: Selects the right tool automatically
 - **Dual Mode**: Fast mode for experts, guided mode for beginners
 - **Smart Workspace Management**: Auto-detect existing workspace or create new
 - **Intelligent Crawling**: Configurable depth, respects rate limits

@@ -1,6 +1,6 @@
 # Prerequisites Installation Guide
 
-This guide walks you through installing everything needed for the **web-to-rag** skill.
+This guide covers installing everything needed for the **web-to-rag** skill.
 
 ---
 
@@ -232,7 +232,7 @@ cd yt-dlp-mcp && npm install && cd ..
 
 ## Configuring AnythingLLM
 
-This is the **most important step**. AnythingLLM needs to be configured with an LLM provider to work.
+**Configure AnythingLLM with an LLM provider** — this step is essential.
 
 ### Step 1: Open AnythingLLM Web UI
 
@@ -446,7 +446,7 @@ You should see:
 
 ### Initialize AnythingLLM MCP
 
-The first time you use the AnythingLLM MCP server, you need to initialize it with your API key. Claude Code will do this automatically when you use the skill, but you can also do it manually:
+Initialize the AnythingLLM MCP server on first use. Claude Code does this automatically, but you can also initialize manually:
 
 ```
 Ask Claude: "Initialize AnythingLLM with my API key"
