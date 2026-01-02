@@ -1,0 +1,12 @@
+# FastAPI and server
+fastapi==0.115.6
+uvicorn[standard]==0.34.2
+python-multipart==0.0.20
+
+# Whisper for audio transcription (CPU version)
+# Using faster-whisper for better CPU performance and lower memory
+faster-whisper==1.1.1
+
+# Utilities
+aiofiles==24.1.0
+httpx==0.28.1

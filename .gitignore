@@ -1,0 +1,47 @@
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+.env
+*.egg-info/
+dist/
+build/
+
+# API Keys / Secrets (NEVER commit these)
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+secrets.json
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Generated media (keep repo clean)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.webm
+!assets/**

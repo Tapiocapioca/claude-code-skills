@@ -1,0 +1,20 @@
+{
+  "name": "tapioca-claude-skills",
+  "owner": {
+    "name": "Tapiocapioca",
+    "email": "tapiocapioca@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Production-ready skills for Claude Code - Web scraping and RAG integration",
+    "version": "2.1.0",
+    "repository": "https://github.com/Tapiocapioca/claude-code-skills"
+  },
+  "plugins": [
+    {
+      "name": "web-to-rag",
+      "description": "Web scraping and RAG integration - scrape websites and embed into local knowledge base",
+      "source": "./skills/web-to-rag",
+      "strict": false
+    }
+  ]
+}
