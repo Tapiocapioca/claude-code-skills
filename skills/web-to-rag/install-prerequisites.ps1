@@ -598,13 +598,63 @@ $mcpConfig = @"
 }
 "@
 
-# Only create if doesn't exist (don't overwrite user config)
-if (-not (Test-Path $mcpConfigPath)) {
+# Merge with existing config or create new
+if (Test-Path $mcpConfigPath) {
+    Write-Host "  Merging with existing MCP configuration..."
+    try {
+        # Read existing config
+        $existingContent = Get-Content -Path $mcpConfigPath -Raw -Encoding UTF8
+        # Remove BOM if present
+        $existingContent = $existingContent -replace '^\xEF\xBB\xBF', ''
+        $existingConfig = $existingContent | ConvertFrom-Json
+
+        # Parse our new config
+        $newConfig = $mcpConfig | ConvertFrom-Json
+
+        # Ensure mcpServers exists in existing config
+        if (-not $existingConfig.mcpServers) {
+            $existingConfig | Add-Member -NotePropertyName "mcpServers" -NotePropertyValue @{} -Force
+        }
+
+        # Merge: add our servers (don't overwrite if user has customized)
+        $serversToAdd = @("anythingllm", "duckduckgo-search", "yt-dlp", "crawl4ai")
+        $added = @()
+        $skipped = @()
+
+        foreach ($serverName in $serversToAdd) {
+            $serverConfig = $newConfig.mcpServers.$serverName
+            if ($serverConfig) {
+                # Check if server already exists
+                $existingServer = $existingConfig.mcpServers.$serverName
+                if (-not $existingServer) {
+                    # Add new server
+                    $existingConfig.mcpServers | Add-Member -NotePropertyName $serverName -NotePropertyValue $serverConfig -Force
+                    $added += $serverName
+                } else {
+                    $skipped += $serverName
+                }
+            }
+        }
+
+        # Write merged config
+        $existingConfig | ConvertTo-Json -Depth 10 | Out-File -FilePath $mcpConfigPath -Encoding utf8
+
+        if ($added.Count -gt 0) {
+            Write-OK "Added MCP servers: $($added -join ', ')"
+        }
+        if ($skipped.Count -gt 0) {
+            Write-Host "     Kept existing: $($skipped -join ', ')" -ForegroundColor Gray
+        }
+    } catch {
+        Write-Warn "Could not merge config: $_"
+        Write-Host "     Creating backup and writing new config..."
+        Copy-Item $mcpConfigPath "$mcpConfigPath.backup"
+        $mcpConfig | Out-File -FilePath $mcpConfigPath -Encoding utf8
+        Write-OK "MCP configuration created (backup saved as .backup)"
+    }
+} else {
     $mcpConfig | Out-File -FilePath $mcpConfigPath -Encoding utf8
     Write-OK "MCP configuration created at: $mcpConfigPath"
-} else {
-    Write-Warn "MCP configuration already exists at: $mcpConfigPath"
-    Write-Host "     Please manually merge the MCP server entries if needed"
 }
 
 # =============================================================================
