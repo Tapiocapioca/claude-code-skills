@@ -575,81 +575,70 @@ Write-Host "        - whisper-server: http://localhost:8502 (Audio transcription
 # =============================================================================
 # STEP 8: Create Claude Code MCP Configuration
 # =============================================================================
-Write-Step "Creating Claude Code MCP configuration..."
+Write-Step "Configuring Claude Code MCP servers..."
 
-$claudeConfigDir = "$env:USERPROFILE\.claude"
-if (-not (Test-Path $claudeConfigDir)) {
-    New-Item -ItemType Directory -Path $claudeConfigDir -Force | Out-Null
-}
-
-$mcpConfigPath = "$claudeConfigDir\mcp_servers.json"
+# IMPORTANT: Claude Code reads MCP config from ~/.claude.json (mcpServers section at root level)
+# NOT from ~/.claude/mcp_servers.json!
+$claudeJsonPath = "$env:USERPROFILE\.claude.json"
 $userProfile = $env:USERPROFILE -replace '\\', '/'
-$mcpConfig = @"
-{
-  "mcpServers": {
-    "anythingllm": {
-      "command": "node",
-      "args": ["$userProfile/.claude/mcp-servers/anythingllm-mcp-server/src/index.js"],
-      "env": {
-        "ANYTHINGLLM_API_KEY": "YOUR_API_KEY_HERE",
-        "ANYTHINGLLM_BASE_URL": "http://localhost:3001"
-      }
-    },
-    "duckduckgo-search": {
-      "command": "mcp-duckduckgo"
-    },
-    "yt-dlp": {
-      "command": "node",
-      "args": ["$userProfile/.claude/mcp-servers/yt-dlp-mcp/lib/index.mjs"]
-    },
-    "crawl4ai": {
-      "type": "sse",
-      "url": "http://localhost:11235/mcp/sse"
-    }
-  }
-}
-"@
 
-# Merge with existing config or create new
-if (Test-Path $mcpConfigPath) {
-    Write-Host "  Merging with existing MCP configuration..."
+# Define the MCP servers we want to add
+$mcpServersToAdd = @{
+    "anythingllm" = @{
+        "command" = "node"
+        "args" = @("$userProfile/.claude/mcp-servers/anythingllm-mcp-server/src/index.js")
+        "env" = @{
+            "ANYTHINGLLM_API_KEY" = "YOUR_API_KEY_HERE"
+            "ANYTHINGLLM_BASE_URL" = "http://localhost:3001"
+        }
+    }
+    "duckduckgo-search" = @{
+        "command" = "mcp-duckduckgo"
+    }
+    "yt-dlp" = @{
+        "command" = "node"
+        "args" = @("$userProfile/.claude/mcp-servers/yt-dlp-mcp/lib/index.mjs")
+    }
+    "crawl4ai" = @{
+        "type" = "sse"
+        "url" = "http://localhost:11235/mcp/sse"
+    }
+}
+
+if (Test-Path $claudeJsonPath) {
+    Write-Host "  Merging MCP servers into existing .claude.json..."
     try {
         # Read existing config
-        $existingContent = Get-Content -Path $mcpConfigPath -Raw -Encoding UTF8
+        $existingContent = Get-Content -Path $claudeJsonPath -Raw -Encoding UTF8
         # Remove BOM if present
         $existingContent = $existingContent -replace '^\xEF\xBB\xBF', ''
         $existingConfig = $existingContent | ConvertFrom-Json
 
-        # Parse our new config
-        $newConfig = $mcpConfig | ConvertFrom-Json
-
-        # Ensure mcpServers exists in existing config
+        # Ensure mcpServers exists at root level
         if (-not $existingConfig.mcpServers) {
             $existingConfig | Add-Member -NotePropertyName "mcpServers" -NotePropertyValue @{} -Force
         }
 
         # Merge: add our servers (don't overwrite if user has customized)
-        $serversToAdd = @("anythingllm", "duckduckgo-search", "yt-dlp", "crawl4ai")
         $added = @()
         $skipped = @()
 
-        foreach ($serverName in $serversToAdd) {
-            $serverConfig = $newConfig.mcpServers.$serverName
-            if ($serverConfig) {
-                # Check if server already exists
-                $existingServer = $existingConfig.mcpServers.$serverName
-                if (-not $existingServer) {
-                    # Add new server
-                    $existingConfig.mcpServers | Add-Member -NotePropertyName $serverName -NotePropertyValue $serverConfig -Force
-                    $added += $serverName
-                } else {
-                    $skipped += $serverName
-                }
+        foreach ($serverName in $mcpServersToAdd.Keys) {
+            $serverConfig = $mcpServersToAdd[$serverName]
+            # Check if server already exists
+            $existingServer = $existingConfig.mcpServers.$serverName
+            if (-not $existingServer) {
+                # Add new server - need to convert hashtable to PSObject for JSON
+                $serverObj = [PSCustomObject]$serverConfig
+                $existingConfig.mcpServers | Add-Member -NotePropertyName $serverName -NotePropertyValue $serverObj -Force
+                $added += $serverName
+            } else {
+                $skipped += $serverName
             }
         }
 
-        # Write merged config
-        $existingConfig | ConvertTo-Json -Depth 10 | Out-File -FilePath $mcpConfigPath -Encoding utf8
+        # Write merged config back with proper formatting
+        $existingConfig | ConvertTo-Json -Depth 10 | Out-File -FilePath $claudeJsonPath -Encoding utf8
 
         if ($added.Count -gt 0) {
             Write-OK "Added MCP servers: $($added -join ', ')"
@@ -659,14 +648,25 @@ if (Test-Path $mcpConfigPath) {
         }
     } catch {
         Write-Warn "Could not merge config: $_"
-        Write-Host "     Creating backup and writing new config..."
-        Copy-Item $mcpConfigPath "$mcpConfigPath.backup"
-        $mcpConfig | Out-File -FilePath $mcpConfigPath -Encoding utf8
-        Write-OK "MCP configuration created (backup saved as .backup)"
+        Write-Host "     Please manually add MCP servers to $claudeJsonPath"
+        Write-Host "     See PREREQUISITES.md for configuration format."
     }
 } else {
-    $mcpConfig | Out-File -FilePath $mcpConfigPath -Encoding utf8
-    Write-OK "MCP configuration created at: $mcpConfigPath"
+    # Create new .claude.json with mcpServers
+    Write-Host "  Creating new .claude.json with MCP configuration..."
+    $newConfig = @{
+        "mcpServers" = $mcpServersToAdd
+    }
+    $newConfig | ConvertTo-Json -Depth 10 | Out-File -FilePath $claudeJsonPath -Encoding utf8
+    Write-OK "MCP configuration created at: $claudeJsonPath"
+}
+
+# Cleanup old mcp_servers.json if it exists (no longer used)
+$oldMcpConfig = "$env:USERPROFILE\.claude\mcp_servers.json"
+if (Test-Path $oldMcpConfig) {
+    Write-Host "  Removing deprecated mcp_servers.json (Claude Code reads from .claude.json)..."
+    Remove-Item $oldMcpConfig -Force
+    Write-OK "Cleaned up old configuration file"
 }
 
 # =============================================================================

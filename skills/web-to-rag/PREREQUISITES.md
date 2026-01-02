@@ -287,19 +287,21 @@ After installing MCP servers, you need to configure them in Claude Code.
 
 ### Step 1: Find Your MCP Config File
 
-**Windows:** `%USERPROFILE%\.claude\mcp_servers.json`
-**Linux/macOS:** `~/.claude/mcp_servers.json`
+**IMPORTANT:** Claude Code reads MCP configuration from `~/.claude.json` (at the root level `mcpServers` section), NOT from `~/.claude/mcp_servers.json`.
+
+**Windows:** `%USERPROFILE%\.claude.json`
+**Linux/macOS:** `~/.claude.json`
 
 ### Step 2: Edit the Configuration
 
-If the installer created it, update `YOUR_API_KEY_HERE` with your AnythingLLM API key:
+Open your `.claude.json` file and add/merge the `mcpServers` section. Replace `YOUR_API_KEY_HERE` with your AnythingLLM API key:
 
 ```json
 {
   "mcpServers": {
     "anythingllm": {
       "command": "node",
-      "args": ["~/.claude/mcp-servers/anythingllm-mcp-server/src/index.js"],
+      "args": ["C:/Users/YourUsername/.claude/mcp-servers/anythingllm-mcp-server/src/index.js"],
       "env": {
         "ANYTHINGLLM_API_KEY": "YOUR_API_KEY_HERE",
         "ANYTHINGLLM_BASE_URL": "http://localhost:3001"
@@ -310,7 +312,7 @@ If the installer created it, update `YOUR_API_KEY_HERE` with your AnythingLLM AP
     },
     "yt-dlp": {
       "command": "node",
-      "args": ["~/.claude/mcp-servers/yt-dlp-mcp/lib/index.mjs"]
+      "args": ["C:/Users/YourUsername/.claude/mcp-servers/yt-dlp-mcp/lib/index.mjs"]
     },
     "crawl4ai": {
       "type": "sse",
@@ -322,8 +324,8 @@ If the installer created it, update `YOUR_API_KEY_HERE` with your AnythingLLM AP
 
 **Important:**
 - Replace `YOUR_API_KEY_HERE` with your AnythingLLM API key
-- Replace `~` with your actual home directory path:
-  - **Windows:** `C:/Users/YourUsername`
+- Replace `YourUsername` with your actual username:
+  - **Windows:** Use forward slashes `C:/Users/YourUsername/...`
   - **Linux/macOS:** `/home/YourUsername` or `/Users/YourUsername`
 
 ### Step 3: Restart Claude Code
