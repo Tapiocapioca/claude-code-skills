@@ -36,7 +36,7 @@ cd skills/web-to-rag
 
 ### Post-Installation: Configure AnythingLLM
 
-1. Open **http://localhost:3001**
+1. Open **<a href="http://localhost:3001" target="_blank">http://localhost:3001</a>**
 2. Complete setup wizard
 3. Configure LLM provider in **Settings → LLM Preference**
 4. Create API key in **Settings → API Keys**
@@ -155,7 +155,7 @@ web-to-rag/
 
 ### AnythingLLM API Key
 
-1. Open http://localhost:3001
+1. Open <a href="http://localhost:3001" target="_blank">http://localhost:3001</a>
 2. Go to Settings → API Keys
 3. Create key
 4. Update `~/.claude/mcp_servers.json`
@@ -192,7 +192,7 @@ mcp__anythingllm__initialize_anythingllm
   baseUrl: "http://localhost:3001"
 ```
 
-See [references/troubleshooting.md](references/troubleshooting.md) for more.
+See <a href="references/troubleshooting.md" target="_blank">references/troubleshooting.md</a> for more.
 
 ---
 
@@ -204,9 +204,9 @@ MIT License
 
 ## Credits
 
-- [Crawl4AI](https://github.com/unclecode/crawl4ai)
-- [AnythingLLM](https://github.com/Mintplex-Labs/anything-llm)
-- [Claude Code](https://claude.ai/code)
+- <a href="https://github.com/unclecode/crawl4ai" target="_blank">Crawl4AI</a>
+- <a href="https://github.com/Mintplex-Labs/anything-llm" target="_blank">AnythingLLM</a>
+- <a href="https://claude.ai/code" target="_blank">Claude Code</a>
 
 ---
 

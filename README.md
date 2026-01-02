@@ -43,9 +43,11 @@ cp -r claude-code-skills/skills/web-to-rag ~/.claude/skills/
 
 | Skill | Description | Documentation |
 |-------|-------------|---------------|
-| **[web-to-rag](skills/web-to-rag/)** | Scrape websites, YouTube, PDFs into local RAG | [README](skills/web-to-rag/README.md) • [Prerequisites](skills/web-to-rag/PREREQUISITES.md) |
+| **<a href="skills/web-to-rag/" target="_blank">web-to-rag</a>** | Scrape websites, YouTube, PDFs into local RAG | <a href="skills/web-to-rag/README.md" target="_blank">README</a> • <a href="skills/web-to-rag/PREREQUISITES.md" target="_blank">Prerequisites</a> |
 
-> **Free to test!** Try `web-to-rag` without cost using [iFlow Platform](https://platform.iflow.cn/en/models) (free tier). Sign up [here](https://iflow.cn/oauth?redirect=https%3A%2F%2Fvibex.iflow.cn%2Fsession%2Fsso_login).
+> **Free to test!** Try `web-to-rag` without cost using <a href="https://platform.iflow.cn/en/models" target="_blank">iFlow Platform</a> (free tier). <a href="https://iflow.cn/oauth?redirect=https%3A%2F%2Fvibex.iflow.cn%2Fsession%2Fsso_login" target="_blank">Sign up here</a>. Get API key: <a href="https://platform.iflow.cn/profile?tab=apiKey" target="_blank">direct link</a>.
+>
+> ⚠️ **Tip:** If the site displays in English, the user menu may be hidden. Use the direct link above.
 
 Each skill is **self-contained** with its own prerequisites, infrastructure, and documentation.
 
@@ -95,7 +97,7 @@ claude-code-skills/
 
 ## Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions welcome! See <a href="CONTRIBUTING.md" target="_blank">CONTRIBUTING.md</a>.
 
 ### Ideas for New Skills
 
@@ -109,12 +111,12 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[MIT License](LICENSE)
+<a href="LICENSE" target="_blank">MIT License</a>
 
 ---
 
 ## Author
 
-Created by [Tapiocapioca](https://github.com/Tapiocapioca) with Claude Code.
+Created by <a href="https://github.com/Tapiocapioca" target="_blank">Tapiocapioca</a> with Claude Code.
 
 *Last updated: January 2026*

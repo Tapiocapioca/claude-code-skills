@@ -123,9 +123,9 @@ The MCP servers are installed from **Tapiocapioca's forks** (customized versions
 
 | MCP Server | Repository | Language |
 |------------|------------|----------|
-| **AnythingLLM MCP** | https://github.com/Tapiocapioca/anythingllm-mcp-server | Node.js |
-| **DuckDuckGo MCP** | https://github.com/Tapiocapioca/mcp-duckduckgo | Python |
-| **yt-dlp MCP** | https://github.com/Tapiocapioca/yt-dlp-mcp | Node.js |
+| **AnythingLLM MCP** | <a href="https://github.com/Tapiocapioca/anythingllm-mcp-server" target="_blank">github.com/Tapiocapioca/anythingllm-mcp-server</a> | Node.js |
+| **DuckDuckGo MCP** | <a href="https://github.com/Tapiocapioca/mcp-duckduckgo" target="_blank">github.com/Tapiocapioca/mcp-duckduckgo</a> | Python |
+| **yt-dlp MCP** | <a href="https://github.com/Tapiocapioca/yt-dlp-mcp" target="_blank">github.com/Tapiocapioca/yt-dlp-mcp</a> | Node.js |
 | **Crawl4AI MCP** | Built into Docker container (SSE endpoint) | - |
 
 ---
@@ -251,10 +251,10 @@ Choose one of these providers:
 
 | Provider | What You Need | Cost |
 |----------|---------------|------|
-| **iFlow Platform** ⭐ | API Key from https://platform.iflow.cn/en/models | **Free tier** |
-| **OpenAI** | API Key from https://platform.openai.com/api-keys | Paid |
-| **Anthropic** | API Key from https://console.anthropic.com/ | Paid |
-| **OpenRouter** | API Key from https://openrouter.ai/keys | Pay per use |
+| **iFlow Platform** ⭐ | API Key from <a href="https://platform.iflow.cn/en/models" target="_blank">platform.iflow.cn</a> | **Free tier** |
+| **OpenAI** | API Key from <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a> | Paid |
+| **Anthropic** | API Key from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a> | Paid |
+| **OpenRouter** | API Key from <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a> | Pay per use |
 | **Ollama** | Local Ollama installation | Free (local) |
 | **Azure OpenAI** | Azure endpoint and key | Paid |
 
@@ -271,12 +271,12 @@ Choose one of these providers:
 
 **Setup:**
 1. **Sign up without Chinese phone number:**
-   - Use this direct link: https://iflow.cn/oauth?redirect=https%3A%2F%2Fvibex.iflow.cn%2Fsession%2Fsso_login
+   - Use this direct link: <a href="https://iflow.cn/oauth?redirect=https%3A%2F%2Fvibex.iflow.cn%2Fsession%2Fsso_login" target="_blank">iflow.cn signup</a>
    - This bypasses the Chinese phone verification requirement
 
 2. **Get your API key:**
-   - Direct link: https://platform.iflow.cn/profile?tab=apiKey
-   - ⚠️ **Tip:** If the site displays in Chinese, the user menu may be hidden. Use the direct link above to access API key settings.
+   - Direct link: <a href="https://platform.iflow.cn/profile?tab=apiKey" target="_blank">platform.iflow.cn/profile</a>
+   - ⚠️ **Tip:** If the site displays in English, the user menu may be hidden. Use the direct link above to access API key settings.
 
 3. In AnythingLLM, select **"Generic OpenAI"**
 
@@ -290,7 +290,7 @@ Choose one of these providers:
 > **Note:** iFlow provides LLM models only (no embeddings). Use the built-in "AnythingLLM Embedder" for embeddings.
 
 **For Ollama (Free, Local Option):**
-1. Install Ollama: https://ollama.ai
+1. Install Ollama: <a href="https://ollama.ai" target="_blank">ollama.ai</a>
 2. Pull a model: `ollama pull llama2` or `ollama pull mistral`
 3. In AnythingLLM, select "Ollama" and enter: `http://host.docker.internal:11434`
 
