@@ -270,9 +270,16 @@ Choose one of these providers:
 - `deepseek-r1` - DeepSeek R1 reasoning model
 
 **Setup:**
-1. Sign up at: https://platform.iflow.cn/en/models
-2. Get your API key from the dashboard
+1. **Sign up without Chinese phone number:**
+   - Use this direct link: https://iflow.cn/oauth?redirect=https%3A%2F%2Fvibex.iflow.cn%2Fsession%2Fsso_login
+   - This bypasses the Chinese phone verification requirement
+
+2. **Get your API key:**
+   - Direct link: https://platform.iflow.cn/profile?tab=apiKey
+   - ⚠️ **Tip:** If the site displays in Chinese, the user menu may be hidden. Use the direct link above to access API key settings.
+
 3. In AnythingLLM, select **"Generic OpenAI"**
+
 4. Configure:
    - **Base URL**: `https://api.iflow.cn/v1`
    - **API Key**: Your iFlow API key
